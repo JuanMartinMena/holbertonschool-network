@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Script to display all active IPv4 IPs on the machine
 
-# Use the `ifconfig` command to get IPv4 addresses and filter out the loopback address
-ifconfig | grep -oP '(?<=inet\s)\d+\.\d+\.\d+\.\d+' | grep -v '127.0.0.1'
+# Use the `ifconfig` command to get IPv4 addresses and filter out the loopback address and non-external addresses
+ifconfig | grep -oP '(?<=inet\s)\d+\.\d+\.\d+\.\d+' | grep -vE '^(127\.|::1)'
