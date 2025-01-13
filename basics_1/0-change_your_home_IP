@@ -1,18 +1,29 @@
 #!/usr/bin/env bash
-# Script to update /etc/hosts to change localhost and facebook.com resolutions
+# Create a backup of the /etc/hosts file to ensure it can be restored if needed.
 
-# Check if the script is run as root
-if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root"
-  exit 1
-fi
+sudo cp /etc/hosts /etc/hosts.bak
 
-# Backup the current /etc/hosts file
-cp /etc/hosts /etc/hosts.backup
+# Remove any existing entries containing 'localhost' from the /etc/hosts file.
 
-# Update /etc/hosts with the required configurations
-sed -i '/127.0.0.1\s\+localhost/c\127.0.0.2 localhost' /etc/hosts
-sed -i '/facebook.com/d' /etc/hosts
-echo "8.8.8.8 facebook.com" >> /etc/hosts
+sudo sed -i '/localhost/d' /etc/hosts
 
-echo "Changes applied. You can check by running 'ping localhost' or 'ping facebook.com'."
+# Add a new entry to associate the IP 127.0.0.2 with 'localhost'.
+# 'tee -a' ensures the entry is appended to the end of the file, preserving other entries.
+
+echo "127.0.0.2 localhost" | sudo tee -a /etc/hosts > /dev/null
+
+# Remove any existing entries containing 'facebook.com' from the /etc/hosts file.
+
+sudo sed -i '/facebook.com/d' /etc/hosts
+
+# Add a new entry that resolves 'facebook.com' to the IP 8.8.8.8.
+
+echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
+
+# Display a message indicating that the /etc/hosts file has been updated.
+
+echo "Updated /etc/hosts:"
+
+# Show the updated /etc/hosts file so that you can verify the changes.
+
+cat /etc/hosts
