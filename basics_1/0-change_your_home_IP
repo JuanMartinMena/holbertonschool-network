@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Script to update /etc/hosts to change localhost and facebook.com resolutions
 
 # Check if the script is run as root
