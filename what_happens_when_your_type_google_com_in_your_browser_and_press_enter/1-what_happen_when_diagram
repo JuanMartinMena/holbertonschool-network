@@ -1,0 +1,21 @@
+Browser
+   |
+   v
+DNS Server
+   |
+   v
+Client Firewall
+   |
+   v
+Internet -- [HTTPS Encrypted Traffic] --> Server Firewall
+   |
+   v
+Load Balancer
+   |
+   +--> Web Server
+            |
+            v
+   Application Server
+            |
+            v
+         Database

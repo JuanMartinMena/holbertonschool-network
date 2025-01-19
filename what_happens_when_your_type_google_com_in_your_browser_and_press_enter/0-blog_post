@@ -1,0 +1,67 @@
+What Happens When You Type https://www.google.com in Your Browser and Press Enter?
+Ever wondered what happens behind the scenes when you type a URL like https://www.google.com into your browser and hit Enter? This seemingly simple action triggers a fascinating series of events involving multiple layers of technology. Let's dive into the journey of your request, step by step.
+
+1. DNS Request
+The first step is to translate the human-readable URL (www.google.com) into an IP address that computers can understand.
+
+Your browser checks its DNS cache to see if it already knows the IP address.
+If not, it sends a query to a DNS resolver (often provided by your ISP or a public DNS like Google’s 8.8.8.8).
+The resolver queries multiple DNS servers, including the root, TLD (.com), and authoritative servers, to find the correct IP address.
+2. Establishing a TCP/IP Connection
+Once the IP address is resolved, your browser initiates a connection to the server using the Transmission Control Protocol (TCP) over the Internet Protocol (IP).
+
+TCP ensures reliable communication by establishing a three-way handshake:
+Your computer sends a SYN (synchronize) packet.
+The server responds with a SYN-ACK (synchronize-acknowledge).
+Your computer sends an ACK (acknowledge) packet, completing the handshake.
+This connection happens over port 443 for HTTPS.
+
+3. Firewall Check
+As your packets travel through the network, they pass through firewalls—security devices designed to allow or block traffic based on predefined rules.
+
+Your computer's firewall ensures outgoing requests are safe.
+The server’s firewall ensures incoming traffic is legitimate, protecting against malicious requests.
+4. HTTPS and SSL/TLS Handshake
+Because the URL starts with https://, your browser initiates an SSL/TLS handshake to encrypt the communication:
+
+The server sends its SSL certificate to prove its identity.
+Your browser verifies the certificate’s authenticity using trusted Certificate Authorities (CAs).
+A secure session is established using symmetric encryption for data exchange, ensuring that no one can eavesdrop on the communication.
+5. Load Balancer
+Large websites like Google handle immense amounts of traffic, so your request is routed through a load balancer:
+
+The load balancer distributes incoming requests across multiple servers to prevent overloading any single server.
+Common algorithms include round-robin (distributes requests evenly) or least-connections (sends traffic to the server with the fewest active connections).
+This ensures high availability and efficient resource utilization.
+6. Web Server
+Once your request reaches a server, the web server (e.g., Nginx or Apache) handles it:
+
+The web server parses the HTTP/HTTPS request and determines what resource you’re requesting.
+Static resources like HTML, CSS, and JavaScript files are served directly by the web server.
+7. Application Server
+If your request requires dynamic content, the application server comes into play:
+
+It runs application logic written in frameworks like Django, Flask, or Spring.
+The application server communicates with the database to retrieve or store data as needed.
+For example, when you search on Google, the application server processes your query and prepares the search results.
+
+8. Database Interaction
+Dynamic data is fetched from a database:
+
+The database (e.g., MySQL, PostgreSQL, or a distributed system like Google’s Spanner) stores structured information.
+Queries are executed, and the results are sent back to the application server.
+Databases often have primary-replica setups for scalability, where the primary handles writes, and replicas handle read operations.
+9. Response Rendering and Delivery
+The application server sends the processed response (HTML, JSON, or another format) back to the web server, which delivers it to your browser.
+
+Your browser interprets the HTML and downloads additional resources (like images or scripts).
+The DOM (Document Object Model) is constructed, rendering the web page for you to view and interact with.
+Challenges in the Workflow
+Single Points of Failure (SPOF): If any component (like the load balancer or database) fails, the entire system may be impacted.
+Latency: Every step introduces some delay, and optimizing these steps is critical for performance.
+Security Risks: Firewalls, SSL encryption, and robust server configurations mitigate threats but must be constantly maintained.
+Key Takeaways
+The process involves multiple layers, from DNS resolution to database queries.
+HTTPS ensures secure communication.
+Load balancers and application servers play a crucial role in scaling and handling traffic.
+Monitoring and optimizing each layer are essential for building reliable web applications.
